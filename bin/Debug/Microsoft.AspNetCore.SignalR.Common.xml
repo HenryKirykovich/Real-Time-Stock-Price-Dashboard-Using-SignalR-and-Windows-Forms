@@ -652,9 +652,19 @@
             <param name="argument">The reference type argument to validate as neither null nor empty.</param>
             <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
         </member>
+        <member name="M:Microsoft.AspNetCore.Shared.ArgumentThrowHelper.ThrowIfNullOrWhiteSpace(System.String,System.String)">
+            <summary>Throws an <see cref="T:System.ArgumentNullException"/> if <paramref name="argument"/> is null or an <see cref="T:System.ArgumentException"/> if it is empty or whitespace.</summary>
+            <param name="argument">The reference type argument to validate as neither null nor empty nor whitespace.</param>
+            <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
+        </member>
         <member name="M:Microsoft.AspNetCore.Shared.ArgumentNullThrowHelper.ThrowIfNull(System.Object,System.String)">
             <summary>Throws an <see cref="T:System.ArgumentNullException"/> if <paramref name="argument"/> is null.</summary>
             <param name="argument">The reference type argument to validate as non-null.</param>
+            <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
+        </member>
+        <member name="M:Microsoft.AspNetCore.Shared.ArgumentNullThrowHelper.ThrowIfNullOrEmpty(System.String,System.String)">
+            <summary>Throws an <see cref="T:System.ArgumentException"/> if <paramref name="argument"/> is null or empty.</summary>
+            <param name="argument">The <see cref="T:System.String"/> argument to validate as non-null and non-empty.</param>
             <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">

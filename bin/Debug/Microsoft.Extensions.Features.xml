@@ -52,7 +52,7 @@
         </member>
         <member name="M:Microsoft.AspNetCore.Http.Features.FeatureCollectionExtensions.GetRequiredFeature``1(Microsoft.AspNetCore.Http.Features.IFeatureCollection)">
             <summary>
-            Retrives the requested feature from the collection.
+            Retrieves the requested feature from the collection.
             Throws an <see cref="T:System.InvalidOperationException"/> if the feature is not present.
             </summary>
             <param name="featureCollection">The <see cref="T:Microsoft.AspNetCore.Http.Features.IFeatureCollection"/>.</param>
@@ -61,7 +61,7 @@
         </member>
         <member name="M:Microsoft.AspNetCore.Http.Features.FeatureCollectionExtensions.GetRequiredFeature(Microsoft.AspNetCore.Http.Features.IFeatureCollection,System.Type)">
             <summary>
-            Retrives the requested feature from the collection.
+            Retrieves the requested feature from the collection.
             Throws an <see cref="T:System.InvalidOperationException"/> if the feature is not present.
             </summary>
             <param name="featureCollection">feature collection</param>
@@ -185,6 +185,11 @@
             <param name="argument">The reference type argument to validate as non-null.</param>
             <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
         </member>
+        <member name="M:Microsoft.AspNetCore.Shared.ArgumentNullThrowHelper.ThrowIfNullOrEmpty(System.String,System.String)">
+            <summary>Throws an <see cref="T:System.ArgumentException"/> if <paramref name="argument"/> is null or empty.</summary>
+            <param name="argument">The <see cref="T:System.String"/> argument to validate as non-null and non-empty.</param>
+            <param name="paramName">The name of the parameter with which <paramref name="argument"/> corresponds.</param>
+        </member>
         <member name="M:Microsoft.AspNetCore.Shared.ArgumentOutOfRangeThrowHelper.ThrowIfZero(System.Int32,System.String)">
             <summary>Throws an <see cref="T:System.ArgumentOutOfRangeException"/> if <paramref name="value"/> is zero.</summary>
             <param name="value">The argument to validate as non-zero.</param>
@@ -228,6 +233,11 @@
             <param name="value">The argument to validate as greatar than than <paramref name="other"/>.</param>
             <param name="other">The value to compare with <paramref name="value"/>.</param>
             <param name="paramName">The name of the parameter with which <paramref name="value"/> corresponds.</param>
+        </member>
+        <member name="T:Microsoft.AspNetCore.Shared.DictionaryItemDebugView`2">
+            <summary>
+            Defines a key/value pair for displaying an item of a dictionary by a debugger.
+            </summary>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">
             <summary>Specifies that null is allowed as an input even if the corresponding type disallows it.</summary>

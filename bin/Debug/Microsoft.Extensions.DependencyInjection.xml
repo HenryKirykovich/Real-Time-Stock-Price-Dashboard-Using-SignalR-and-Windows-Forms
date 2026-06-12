@@ -4,17 +4,6 @@
         <name>Microsoft.Extensions.DependencyInjection</name>
     </assembly>
     <members>
-        <member name="M:Microsoft.Extensions.Internal.TypeNameHelper.GetTypeDisplayName(System.Type,System.Boolean,System.Boolean,System.Boolean,System.Char)">
-            <summary>
-            Pretty print a type name.
-            </summary>
-            <param name="type">The <see cref="T:System.Type"/>.</param>
-            <param name="fullName"><c>true</c> to print a fully qualified name.</param>
-            <param name="includeGenericParameterNames"><c>true</c> to include generic parameter names.</param>
-            <param name="includeGenericParameters"><c>true</c> to include generic parameters.</param>
-            <param name="nestedTypeDelimiter">Character to use as a delimiter in nested type names</param>
-            <returns>The pretty printed type name.</returns>
-        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.DefaultServiceProviderFactory">
             <summary>
             Default implementation of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceProviderFactory`1"/>.
@@ -98,11 +87,6 @@
             to inform the developer early that this scenario will not work once AOT'd.
             </remarks>
         </member>
-        <member name="M:Microsoft.Extensions.DependencyInjection.ServiceLookup.CallSiteFactory.KeysMatch(System.Object,System.Object)">
-            <summary>
-            Returns true if both keys are null or equals, or if key1 is KeyedService.AnyKey and key2 is not null
-            </summary>
-        </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.ServiceLookup.ServiceCacheKey.ServiceIdentifier">
             <summary>
             Type of service being cached
@@ -150,15 +134,20 @@
             <param name="serviceType">The type of the service to get.</param>
             <param name="serviceKey">The key of the service to get.</param>
             <returns>The keyed service.</returns>
+            <exception cref="T:System.InvalidOperationException">The <see cref="P:Microsoft.Extensions.DependencyInjection.KeyedService.AnyKey"/> value is used for <paramref name="serviceKey"/>
+            when <paramref name="serviceType"/> is not an enumerable based on <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </exception>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.ServiceProvider.GetRequiredKeyedService(System.Type,System.Object)">
             <summary>
-            Gets the service object of the specified type. Will throw if the service not found.
+            Gets the service object of the specified type.
             </summary>
             <param name="serviceType">The type of the service to get.</param>
             <param name="serviceKey">The key of the service to get.</param>
             <returns>The keyed service.</returns>
-            <exception cref="T:System.InvalidOperationException"></exception>
+            <exception cref="T:System.InvalidOperationException">The service wasn't found or the <see cref="P:Microsoft.Extensions.DependencyInjection.KeyedService.AnyKey"/> value is used
+            for <paramref name="serviceKey"/> when <paramref name="serviceType"/> is not an enumerable based on <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
+            </exception>
         </member>
         <member name="M:Microsoft.Extensions.DependencyInjection.ServiceProvider.Dispose">
             <inheritdoc />
@@ -173,14 +162,27 @@
         </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.ServiceProviderOptions.ValidateScopes">
             <summary>
-            <c>true</c> to perform check verifying that scoped services never gets resolved from root provider; otherwise <c>false</c>. Defaults to <c>false</c>.
+            Gets or sets a value that indicates whether validation is performed to ensure that scoped services are never resolved from the root provider.
             </summary>
         </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.ServiceProviderOptions.ValidateOnBuild">
             <summary>
-            <c>true</c> to perform check verifying that all services can be created during <c>BuildServiceProvider</c> call; otherwise <c>false</c>. Defaults to <c>false</c>.
-            NOTE: this check doesn't verify open generics services.
+            Gets or sets a value that indicates whether validation is performed to ensure all services can be created when <see cref="M:Microsoft.Extensions.DependencyInjection.ServiceCollectionContainerBuilderExtensions.BuildServiceProvider(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.DependencyInjection.ServiceProviderOptions)" /> is called.
             </summary>
+            <remarks>
+            Open generics services aren't validated.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Extensions.Internal.TypeNameHelper.GetTypeDisplayName(System.Type,System.Boolean,System.Boolean,System.Boolean,System.Char)">
+            <summary>
+            Pretty print a type name.
+            </summary>
+            <param name="type">The <see cref="T:System.Type"/>.</param>
+            <param name="fullName"><c>true</c> to print a fully qualified name.</param>
+            <param name="includeGenericParameterNames"><c>true</c> to include generic parameter names.</param>
+            <param name="includeGenericParameters"><c>true</c> to include generic parameters.</param>
+            <param name="nestedTypeDelimiter">Character to use as a delimiter in nested type names</param>
+            <returns>The pretty printed type name.</returns>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMembersAttribute">
              <summary>
@@ -302,9 +304,113 @@
             Specifies all interfaces implemented by the type.
             </summary>
         </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicConstructorsWithInherited">
+            <summary>
+            Specifies all non-public constructors, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicMethodsWithInherited">
+            <summary>
+            Specifies all non-public methods, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicFieldsWithInherited">
+            <summary>
+            Specifies all non-public fields, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicNestedTypesWithInherited">
+            <summary>
+            Specifies all non-public nested types, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicPropertiesWithInherited">
+            <summary>
+            Specifies all non-public properties, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.NonPublicEventsWithInherited">
+            <summary>
+            Specifies all non-public events, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicConstructorsWithInherited">
+            <summary>
+            Specifies all public constructors, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.PublicNestedTypesWithInherited">
+            <summary>
+            Specifies all public nested types, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.AllConstructors">
+            <summary>
+            Specifies all constructors, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.AllMethods">
+            <summary>
+            Specifies all methods, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.AllFields">
+            <summary>
+            Specifies all fields, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.AllNestedTypes">
+            <summary>
+            Specifies all nested types, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.AllProperties">
+            <summary>
+            Specifies all properties, including those inherited from base classes.
+            </summary>
+        </member>
+        <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.AllEvents">
+            <summary>
+            Specifies all events, including those inherited from base classes.
+            </summary>
+        </member>
         <member name="F:System.Diagnostics.CodeAnalysis.DynamicallyAccessedMemberTypes.All">
             <summary>
             Specifies all members.
+            </summary>
+        </member>
+        <member name="T:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute">
+            <summary>
+            Indicates that the specified method requires the ability to generate new code at runtime,
+            for example through <see cref="N:System.Reflection"/>.
+            </summary>
+            <remarks>
+            This allows tools to understand which methods are unsafe to call when compiling ahead of time.
+            </remarks>
+        </member>
+        <member name="M:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute"/> class
+            with the specified message.
+            </summary>
+            <param name="message">
+            A message that contains information about the usage of dynamic code.
+            </param>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute.ExcludeStatics">
+            <summary>
+            When set to true, indicates that the annotation should not apply to static members.
+            </summary>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute.Message">
+            <summary>
+            Gets a message that contains information about the usage of dynamic code.
+            </summary>
+        </member>
+        <member name="P:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute.Url">
+            <summary>
+            Gets or sets an optional URL that contains more information about the method,
+            why it requires dynamic code, and what options a consumer has to deal with it.
             </summary>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.UnconditionalSuppressMessageAttribute">
@@ -381,33 +487,28 @@
             Gets or sets the justification for suppressing the code analysis message.
             </summary>
         </member>
-        <member name="T:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute">
+        <member name="T:System.Diagnostics.CodeAnalysis.FeatureSwitchDefinitionAttribute">
             <summary>
-            Indicates that the specified method requires the ability to generate new code at runtime,
-            for example through <see cref="N:System.Reflection"/>.
+            Indicates that the specified public static boolean get-only property
+            corresponds to the feature switch specified by name.
             </summary>
             <remarks>
-            This allows tools to understand which methods are unsafe to call when compiling ahead of time.
+            IL rewriters and compilers can use this to substitute the return value
+            of the specified property with the value of the feature switch.
             </remarks>
         </member>
-        <member name="M:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute.#ctor(System.String)">
+        <member name="M:System.Diagnostics.CodeAnalysis.FeatureSwitchDefinitionAttribute.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute"/> class
-            with the specified message.
+            Initializes a new instance of the <see cref="T:System.Diagnostics.CodeAnalysis.FeatureSwitchDefinitionAttribute"/> class
+            with the specified feature switch name.
             </summary>
-            <param name="message">
-            A message that contains information about the usage of dynamic code.
+            <param name="switchName">
+            The name of the feature switch that provides the value for the specified property.
             </param>
         </member>
-        <member name="P:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute.Message">
+        <member name="P:System.Diagnostics.CodeAnalysis.FeatureSwitchDefinitionAttribute.SwitchName">
             <summary>
-            Gets a message that contains information about the usage of dynamic code.
-            </summary>
-        </member>
-        <member name="P:System.Diagnostics.CodeAnalysis.RequiresDynamicCodeAttribute.Url">
-            <summary>
-            Gets or sets an optional URL that contains more information about the method,
-            why it requires dynamic code, and what options a consumer has to deal with it.
+            The name of the feature switch that provides the value for the specified property.
             </summary>
         </member>
         <member name="T:System.Diagnostics.CodeAnalysis.AllowNullAttribute">
@@ -498,7 +599,7 @@
         <member name="M:System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.#ctor(System.Boolean,System.String)">
             <summary>Initializes the attribute with the specified return value condition and a field or property member.</summary>
             <param name="returnValue">
-            The return value condition. If the method returns this value, the associated parameter will not be null.
+            The return value condition. If the method returns this value, the associated field or property member will not be null.
             </param>
             <param name="member">
             The field or property member that is promised to be not-null.
@@ -507,7 +608,7 @@
         <member name="M:System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.#ctor(System.Boolean,System.String[])">
             <summary>Initializes the attribute with the specified return value condition and list of field and property members.</summary>
             <param name="returnValue">
-            The return value condition. If the method returns this value, the associated parameter will not be null.
+            The return value condition. If the method returns this value, the associated field and property members will not be null.
             </param>
             <param name="members">
             The list of field and property members that are promised to be not-null.
@@ -518,6 +619,93 @@
         </member>
         <member name="P:System.Diagnostics.CodeAnalysis.MemberNotNullWhenAttribute.Members">
             <summary>Gets field or property member names.</summary>
+        </member>
+        <member name="T:System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute">
+            <summary>
+            When applied to an attribute class, instructs the compiler to flow applications of that attribute,
+            from source code down to compiler-generated symbols. This can help IL-based analysis tools.
+            </summary>
+            <remarks>
+            One example where this attribute applies is in C# primary constructor parameters. If an attribute
+            marked with <see cref="T:System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute"/> gets applied to a primary constructor
+            parameter, the attribute will also be applied to any compiler-generated fields storing that parameter.
+            </remarks>
+        </member>
+        <member name="M:System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Runtime.CompilerServices.CompilerLoweringPreserveAttribute"/> class.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.InteropServices.LibraryImportAttribute">
+            <summary>
+            Attribute used to indicate a source generator should create a function for marshalling
+            arguments instead of relying on the runtime to generate an equivalent marshalling function at run-time.
+            </summary>
+            <remarks>
+            This attribute is meaningless if the source generator associated with it is not enabled.
+            The current built-in source generator only supports C# and only supplies an implementation when
+            applied to static, partial, non-generic methods.
+            </remarks>
+        </member>
+        <member name="M:System.Runtime.InteropServices.LibraryImportAttribute.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.LibraryImportAttribute"/>.
+            </summary>
+            <param name="libraryName">Name of the library containing the import.</param>
+        </member>
+        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.LibraryName">
+            <summary>
+            Gets the name of the library containing the import.
+            </summary>
+        </member>
+        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.EntryPoint">
+            <summary>
+            Gets or sets the name of the entry point to be called.
+            </summary>
+        </member>
+        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshalling">
+            <summary>
+            Gets or sets how to marshal string arguments to the method.
+            </summary>
+            <remarks>
+            If this field is set to a value other than <see cref="F:System.Runtime.InteropServices.StringMarshalling.Custom" />,
+            <see cref="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshallingCustomType" /> must not be specified.
+            </remarks>
+        </member>
+        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshallingCustomType">
+            <summary>
+            Gets or sets the <see cref="T:System.Type"/> used to control how string arguments to the method are marshalled.
+            </summary>
+            <remarks>
+            If this field is specified, <see cref="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshalling" /> must not be specified
+            or must be set to <see cref="F:System.Runtime.InteropServices.StringMarshalling.Custom" />.
+            </remarks>
+        </member>
+        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.SetLastError">
+            <summary>
+            Gets or sets whether the callee sets an error (SetLastError on Windows or errno
+            on other platforms) before returning from the attributed method.
+            </summary>
+        </member>
+        <member name="T:System.Runtime.InteropServices.StringMarshalling">
+            <summary>
+            Specifies how strings should be marshalled for generated p/invokes
+            </summary>
+        </member>
+        <member name="F:System.Runtime.InteropServices.StringMarshalling.Custom">
+            <summary>
+            Indicates the user is supplying a specific marshaller in <see cref="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshallingCustomType"/>.
+            </summary>
+        </member>
+        <member name="F:System.Runtime.InteropServices.StringMarshalling.Utf8">
+            <summary>
+            Use the platform-provided UTF-8 marshaller.
+            </summary>
+        </member>
+        <member name="F:System.Runtime.InteropServices.StringMarshalling.Utf16">
+            <summary>
+            Use the platform-provided UTF-16 marshaller.
+            </summary>
         </member>
         <member name="P:System.SR.AmbiguousConstructorException">
             <summary>Unable to activate type '{0}'. The following constructors are ambiguous:</summary>
@@ -591,76 +779,14 @@
         <member name="P:System.SR.InvalidServiceKeyType">
             <summary>The type of the key used for lookup doesn't match the type in the constructor parameter with the ServiceKey attribute.</summary>
         </member>
-        <member name="T:System.Runtime.InteropServices.LibraryImportAttribute">
-            <summary>
-            Attribute used to indicate a source generator should create a function for marshalling
-            arguments instead of relying on the runtime to generate an equivalent marshalling function at run-time.
-            </summary>
-            <remarks>
-            This attribute is meaningless if the source generator associated with it is not enabled.
-            The current built-in source generator only supports C# and only supplies an implementation when
-            applied to static, partial, non-generic methods.
-            </remarks>
+        <member name="P:System.SR.KeyedServiceAnyKeyUsedToResolveService">
+            <summary>KeyedService.AnyKey cannot be used to resolve a single service.</summary>
         </member>
-        <member name="M:System.Runtime.InteropServices.LibraryImportAttribute.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:System.Runtime.InteropServices.LibraryImportAttribute"/>.
-            </summary>
-            <param name="libraryName">Name of the library containing the import.</param>
+        <member name="P:System.SR.NoKeyedServiceRegistered">
+            <summary>No keyed service for type '{0}' using key type '{1}' has been registered.</summary>
         </member>
-        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.LibraryName">
-            <summary>
-            Gets the name of the library containing the import.
-            </summary>
-        </member>
-        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.EntryPoint">
-            <summary>
-            Gets or sets the name of the entry point to be called.
-            </summary>
-        </member>
-        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshalling">
-            <summary>
-            Gets or sets how to marshal string arguments to the method.
-            </summary>
-            <remarks>
-            If this field is set to a value other than <see cref="F:System.Runtime.InteropServices.StringMarshalling.Custom" />,
-            <see cref="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshallingCustomType" /> must not be specified.
-            </remarks>
-        </member>
-        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshallingCustomType">
-            <summary>
-            Gets or sets the <see cref="T:System.Type"/> used to control how string arguments to the method are marshalled.
-            </summary>
-            <remarks>
-            If this field is specified, <see cref="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshalling" /> must not be specified
-            or must be set to <see cref="F:System.Runtime.InteropServices.StringMarshalling.Custom" />.
-            </remarks>
-        </member>
-        <member name="P:System.Runtime.InteropServices.LibraryImportAttribute.SetLastError">
-            <summary>
-            Gets or sets whether the callee sets an error (SetLastError on Windows or errno
-            on other platforms) before returning from the attributed method.
-            </summary>
-        </member>
-        <member name="T:System.Runtime.InteropServices.StringMarshalling">
-            <summary>
-            Specifies how strings should be marshalled for generated p/invokes
-            </summary>
-        </member>
-        <member name="F:System.Runtime.InteropServices.StringMarshalling.Custom">
-            <summary>
-            Indicates the user is suppling a specific marshaller in <see cref="P:System.Runtime.InteropServices.LibraryImportAttribute.StringMarshallingCustomType"/>.
-            </summary>
-        </member>
-        <member name="F:System.Runtime.InteropServices.StringMarshalling.Utf8">
-            <summary>
-            Use the platform-provided UTF-8 marshaller.
-            </summary>
-        </member>
-        <member name="F:System.Runtime.InteropServices.StringMarshalling.Utf16">
-            <summary>
-            Use the platform-provided UTF-16 marshaller.
-            </summary>
+        <member name="T:System.ExceptionPolyfills">
+            <summary>Provides downlevel polyfills for static methods on Exception-derived types.</summary>
         </member>
     </members>
 </doc>
